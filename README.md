@@ -10,6 +10,7 @@ Course Repository for Udemy Course: [FreeRTOS on Raspberry PI PICO](https://www.
 ## 4 Tasks
 
 + Blink Ext: Blink an external LED on GPIO 0, encapsulating the task within a Class.
+  we modify the led path to 25
 + MultiBlink: Blink multiple LEDs using different task priority
 + BlinkPriority: Use priority with tasks that create CPU workload
 + BlinkAssignment: Explore priority
