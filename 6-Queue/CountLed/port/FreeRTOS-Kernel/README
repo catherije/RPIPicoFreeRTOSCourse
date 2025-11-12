@@ -1,0 +1,64 @@
+Binary LED Random Display – FreeRTOS sur Raspberry Pi Pico
+Description
+Ce projet démontre l’utilisation de **FreeRTOS** sur une **Raspberry Pi Pico** pour exécuter plusieurs tâches en parallèle.  
+Il fait clignoter la LED intégrée de la carte tout en affichant un **nombre aléatoire binaire (0–15)** sur **4 LEDs externes**.  
+
+Le programme affiche également des **statistiques d’exécution** (tâches, mémoire, heap) sur le port série, permettant d’observer le comportement du système temps réel.
+
+Fonctionnalités
+- Gestion multitâche avec **FreeRTOS**  
+- Clignotement de la LED intégrée  
+- Affichage d’un nombre binaire aléatoire sur 4 LEDs externes  
+- Affichage en temps réel des informations système (tâches, heap, etc.)  
+- Exemple simple et éducatif d’application multitâche embarquée  
+
+Matériel requis
+- **Raspberry Pi Pico** (ou équivalent RP2040)  
+- **4 LEDs** + **4 résistances** (≈220 Ω)  
+- **Fils de connexion**  
+- **Alimentation USB**  
+
+Schéma de connexion des LEDs :
+ LED GPIO Pico 
+
+ LED intégrée  25 
+ LED 1  2 
+ LED 2  3 
+ LED 3  4 
+ LED 4  5 
+
+Structure du code
+
+Fichiers principaux :
+ Fichier  Rôle 
+
+ `main.cpp`  Contient la tâche principale et le démarrage de FreeRTOS 
+ `BlinkAgent.cpp / .h`  Gère la LED intégrée (clignotement) 
+ `CounterAgent.cpp / .h`  Gère les 4 LEDs affichant la valeur binaire 
+ `CMakeLists.txt`  Fichier de configuration pour la compilation
+
+Description du fonctionnement
+
+1. Initialisation :  
+   Le programme initialise la communication série (USB) et attend 2 secondes.
+
+2. Création de tâches FreeRTOS :  
+   - `BlinkAgent` : fait clignoter la LED intégrée.  
+   - `CounterAgent` : contrôle 4 LEDs externes.  
+   - `mainTask` : gère la logique principale du programme.
+
+3. Boucle principale :  
+   Toutes les 3 secondes :
+   - Un nombre aléatoire entre `0x0` et `0xF` est généré.  
+   - Les 4 LEDs s’allument selon la valeur binaire correspondante.  
+   - Les statistiques des tâches et de la mémoire sont affichées sur la console.
+
+4. Exemple de sortie console :
+GO
+Starting FreeRTOS on core 0:
+Main task started
+Number of tasks 3
+Task: 1 cPri:2 bPri:1 hw:300 Blink
+Task: 2 cPri:2 bPri:1 hw:280 Counter
+Count R=0xB
+HEAP avl: 3072, blocks 5, alloc: 10, free: 9
