@@ -1,0 +1,124 @@
+## README – Explanation of the Code
+
+This program demonstrates how to use **FreeRTOS SMP (Symmetric Multiprocessing)** on the **Raspberry Pi Pico's dual-core RP2040**.  
+It runs multiple tasks across both cores, controls LEDs, and displays runtime/heap statistics.
+
+The example uses three custom classes:
+- `BlinkAgent` – controls blinking LEDs  
+- `CounterAgent` – drives a 4-bit counter across GPIOs  
+- `mainTask()` – orchestrates the system  
+
+---
+
+##  Features Demonstrated in This Project
+
+### **FreeRTOS SMP (using both cores)**  
+The code assigns tasks to:
+- **Core 0** → One LED blink task  
+- **Core 1** → Second LED blink task + the counter task  
+
+### **Multiple FreeRTOS tasks**  
+Tasks created:
+- `blink` (LED on GPIO 0, core 0)
+- `blink1` (LED on GPIO 15, core 1)
+- `counter` (4-bit output on GPIO 2–5, core 1)
+- `mainTask` (manages the system)
+
+### ** Core affinity management**
+FreeRTOS SMP allows manual placement of tasks:
+
+
+vTaskCoreAffinitySet(blink.getTask(), 0x1);   // Core 0
+vTaskCoreAffinitySet(blink1.getTask(), 0x2);  // Core 1
+vTaskCoreAffinitySet(counter.getTask(), 0x2); // Core 1
+✔ LED blinking on both cores
+Two different LEDs blink independently, each handled by a different core.
+
+4-bit counter output
+CounterAgent uses 4 GPIO pins (2,3,4,5) to output a binary value sent from the main task.
+
+Runtime statistics
+The function runTimeStats() prints:
+
+Number of tasks
+
+Their priorities
+
+Stack high-water marks
+
+Their names
+
+Heap usage (available/free blocks, allocations, frees)
+
+This helps understand performance and memory usage.
+
+Code Overview
+main()
+Initializes USB serial output
+
+Detects if FreeRTOS SMP is active
+
+Calls vLaunch() to start tasks and scheduler
+
+vLaunch()
+Creates the main FreeRTOS task:
+
+
+xTaskCreate(mainTask, "MainThread", 500, NULL, TASK_PRIORITY, &task);
+vTaskStartScheduler();
+mainTask()
+This is the program's central controller. It:
+
+Creates agents:
+
+BlinkAgent blink(LED_PAD);
+BlinkAgent blink1(LED5_PAD);
+CounterAgent counter(LED1_PAD, LED2_PAD, LED3_PAD, LED4_PAD);
+Starts the tasks
+
+Sets each task's assigned core
+
+Enters an infinite loop that:
+
+Prints statistics
+
+Shows which core the task is running on
+
+Sends a random number (0–15) to the counter
+
+Delays 3 seconds
+
+What the Program Demonstrates
+This program is a practical example of:
+
+1. FreeRTOS SMP on RP2040
+Works across both cores of the Raspberry Pi Pico.
+
+2. Task-based LED control
+Each LED blink is handled by a separate FreeRTOS task.
+
+3. Multi-bit GPIO output
+A counter is displayed using 4 GPIO pins.
+
+4. Task synchronization
+The main task communicates with the counter task.
+
+5. Real-time debugging tools
+Runtime and heap statistics allow performance analysis.
+
+How to Run the Program
+Compile using the Pico SDK + FreeRTOS
+
+Flash the .uf2 to your Raspberry Pi Pico
+
+Open a serial monitor (115200 baud)
+
+You will see:
+
+Task statistics
+
+Core IDs
+
+Random counter values
+
+LED blinking on GPIO 0 and 15
