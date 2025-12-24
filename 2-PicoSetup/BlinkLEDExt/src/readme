@@ -1,0 +1,61 @@
+ Purpose of the Program
+
+- Demonstrate how to use **FreeRTOS on Raspberry Pi Pico**
+- Show how to blink an LED using a **FreeRTOS task**
+- Serve as a starting point for RTOS-based embedded applications
+
+
+
+ Program Overview
+Main Task (`mainTask`)
+
+The main task:
+- Initializes GPIO pad **0** as an output
+- Toggles the LED ON and OFF
+- Uses a delay of **500 ms** between toggles
+- Runs indefinitely under FreeRTOS control
+
+The LED blinking is handled entirely inside a FreeRTOS task.
+
+ Key Definitions
+
+- **LED GPIO Pad:** `GPIO 0`
+- **Blink Delay:** `500 ms`
+- **Task Priority:** `Idle priority + 1`
+- **Stack Size:** `configMINIMAL_STACK_SIZE`
+
+ How It Works
+
+1. USB serial output is initialized
+2. The system waits 2 seconds to allow the serial connection to stabilize
+3. A FreeRTOS task (`mainTask`) is created
+4. The FreeRTOS scheduler is started
+5. The LED blinks continuously while the scheduler is running
+
+Hardware Requirements
+
+- Raspberry Pi Pico
+- External LED connected to:
+  - GPIO 0
+  - Appropriate current-limiting resistor
+- USB cable for power and serial output
+
+ Software Requirements
+
+- Raspberry Pi Pico SDK
+- FreeRTOS configured for Pico
+- Standard C library (`stdio`)
+
+ Typical Use Cases
+
+This example is useful for:
+- Learning how to use FreeRTOS tasks
+- Understanding GPIO control under an RTOS
+- Creating a baseline project for more complex multitasking applications
+- Teaching RTOS fundamentals in embedded systems courses
+
+ Notes
+
+- `vTaskDelay()` is used instead of `sleep_ms()` to allow proper task scheduling
+- The program runs entirely on **core 0**
+- Only one task is used, making the behavior easy to understand and debug
