@@ -1,0 +1,45 @@
+This code is a demonstration program that shows how to use FreeRTOS on a Raspberry Pi Pico to control multiple LEDs using multitasking.
+
+What the code does:
+
+It controls several LEDs connected to different GPIO pins on the Raspberry Pi Pico.
+
+Each LED is managed by its own FreeRTOS task, so all LEDs can blink at the same time, independently.
+
+The program demonstrates how to create, start, and manage multiple tasks using FreeRTOS.
+
+It uses a counting semaphore to limit how many LED tasks can run at the same time, showing how shared resources can be synchronized safely.
+
+One main task (mainTask) starts all other tasks and then continuously prints system statistics every few seconds.
+
+Key features demonstrated:
+
+Multitasking: Multiple LED blinking tasks run concurrently.
+
+Task priorities: All tasks are created with the same priority to show cooperative scheduling.
+
+Semaphores: A counting semaphore is used to control access to shared resources.
+
+System monitoring: The program periodically displays:
+
+Number of active tasks
+
+Task priorities
+
+Stack usage (high-water mark)
+
+Heap (memory) usage statistics
+
+Overall purpose:
+
+The purpose of this code is educational. It is meant to demonstrate:
+
+How FreeRTOS works on a microcontroller
+
+How to structure an application using multiple tasks
+
+How to synchronize tasks using semaphores
+
+How to monitor system performance (CPU and memory usage)
+
+In short, this program is a FreeRTOS example that shows how to blink multiple LEDs in parallel while managing tasks and system resources efficiently on a Raspberry Pi Pico.
