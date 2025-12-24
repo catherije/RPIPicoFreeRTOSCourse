@@ -1,0 +1,86 @@
+ Purpose of the Program
+
+- Demonstrate how to create and run FreeRTOS tasks
+- Show how multiple logging agents can run concurrently
+- Monitor system health:
+  - task states
+  - priorities
+  - stack usage
+  - heap usage
+- Provide a clean and extensible base for embedded RTOS projects
+
+
+ Program Architecture
+
+ Tasks Overview
+
+ 1. Main Task
+The main task:
+- Instantiates the agents
+- Starts all other tasks
+- Periodically prints system runtime statistics
+
+ 2. BlinkAgent
+- Blinks an external LED connected to **GPIO 0**
+- Runs as its own FreeRTOS task
+
+3. LogAgentA / LogAgentB
+- Independent logging agents
+- Simulate a multi-source logging framework
+- Demonstrate concurrent task execution
+
+
+
+ Key Features
+
+LED Blinking
+- LED connected to `GPIO 0`
+- Controlled by a dedicated FreeRTOS task
+
+ FreeRTOS Runtime Statistics (`runTimeStats()`)
+
+Every **5 seconds**, the program outputs:
+
+- Total number of tasks
+- For each task:
+  - Task ID
+  - Current priority
+  - Base priority
+  - Stack high water mark
+  - Task name
+- Heap statistics:
+  - Available heap space
+  - Number of free blocks
+  - Successful allocations and frees
+
+These statistics are useful for:
+- Debugging
+- Memory optimization
+- Stack size validation
+
+
+System Startup Flow
+
+1. Initialize USB serial I/O
+2. Wait 2 seconds for the serial connection to stabilize
+3. Create the main FreeRTOS task
+4. Start the FreeRTOS scheduler
+
+
+ Hardware Requirements
+
+- Raspberry Pi Pico
+- External LED connected to:
+  - GPIO 0
+  - Appropriate current-limiting resistor
+- USB cable for serial console output
+
+
+Software Dependencies
+
+- **Raspberry Pi Pico SDK**
+- **FreeRTOS**
+- Custom libraries:
+  - `BlinkAgent`
+  - `LogAgentA`
+  - `LogAgentB`
