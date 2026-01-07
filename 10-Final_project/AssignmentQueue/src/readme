@@ -1,0 +1,173 @@
+1. Project Overview
+
+This project demonstrates the use of FreeRTOS tasks on a Raspberry Pi Pico to control LEDs and display a random binary value.
+
+A main task launches two FreeRTOS agents:
+
+BlinkAgent: blinks a status LED
+
+CounterAgent: displays a random binary number using LEDs
+
+For this exercise, additional LEDs were added to extend the binary output and improve visualization.
+
+2. Features
+
+FreeRTOS multitasking
+
+Random binary number generation
+
+LED binary display
+
+Runtime task statistics
+
+Heap memory monitoring
+
+USB serial debug output
+
+3. Hardware Configuration
+Components Used
+
+Raspberry Pi Pico
+
+8 LEDs
+
+8 resistors (220Ω – 330Ω recommended)
+
+Breadboard and jumper wires
+
+GPIO to LED Mapping
+LED	GPIO
+Status LED	GPIO 0
+LED1	GPIO 1
+LED2	GPIO 2
+LED3	GPIO 3
+LED4	GPIO 4
+LED5	GPIO 5
+LED6	GPIO 6
+LED7	GPIO 7
+
+ Note:
+I added extra LEDs for this exercise to display a wider binary value.
+
+4. Software Architecture
+Tasks Used
+Main Task (mainTask)
+
+Starts BlinkAgent and CounterAgent
+
+Calls runtime statistics function
+
+Generates a random number
+
+Displays the value using LEDs
+
+Runs every 3 seconds
+
+BlinkAgent
+
+Blinks a status LED on GPIO 0
+
+CounterAgent
+
+Displays a binary number using multiple LEDs
+
+5. Runtime Statistics
+
+The function runTimeStats() displays:
+
+Number of active tasks
+
+Current and base task priorities
+
+Stack high water mark
+
+Heap usage statistics
+
+This helps detect:
+
+Stack overflow risks
+
+Memory leaks
+
+Task behavior issues
+
+6. Daily Progress Log
+
+Day 1
+
+Setup Pico SDK and FreeRTOS
+
+Verified USB serial communication
+
+Day 2
+
+Integrated BlinkAgent and CounterAgent
+
+Tested FreeRTOS task scheduling
+
+Day 3
+
+Added extra LEDs
+
+Extended binary output
+
+Implemented runtime and heap statistics
+
+7. Modifications Made
+
+Added additional LEDs for extended binary display
+
+Updated GPIO definitions
+
+Added runtime task statistics
+
+Added heap monitoring
+
+Improved debug output
+
+8. SOP – Standard Operating Procedure
+
+Connect LEDs to the Pico GPIO pins with resistors
+
+Build the project using Pico SDK
+
+Flash the firmware to the Pico
+
+Connect USB and open a serial monitor (115200 baud)
+
+Observe:
+
+Status LED blinking
+
+Binary values displayed on LEDs
+
+Runtime statistics printed every 3 seconds
+
+9. Q&A
+
+Q: Why FreeRTOS?
+A: FreeRTOS enables real-time multitasking and better system organization.
+
+Q: Why add more LEDs?
+A: To improve binary visualization and extend the exercise functionality.
+
+Q: What is the Stack High Water Mark?
+A: It shows the minimum unused stack space, helping prevent stack overflow.
+
+Q: Why mask random value with 0x0F?
+A: To limit the random number to 4 bits for controlled LED output.
+
+10. Comments & Notes
+
+Always use resistors with LEDs
+
+Heap statistics help debug memory issues
+
+Suitable for learning FreeRTOS on microcontrollers
+
+Code runs on core 0 only
+
+11. Final Comment
+
+This project demonstrates practical FreeRTOS usage, GPIO control, and system monitoring on the Raspberry Pi Pico.
+The addition of extra LEDs enhances learning and visualization of binary data.
