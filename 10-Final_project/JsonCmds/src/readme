@@ -1,0 +1,180 @@
+1. Project Overview
+
+This project uses FreeRTOS on a Raspberry Pi Pico to demonstrate:
+
+Blinking LEDs
+
+A 4-bit binary counter
+
+Decoding and formatting output as JSON.
+
+Key Features
+
+Binary Counter: Displays a random 4-bit value using multiple LEDs.
+
+JSON Output: A JSON string ({"count": X}) is generated to represent the binary value, and sent to a DecoderAgent.
+
+Multi-Agent System: Three agents are used in this system:
+
+BlinkAgent: Blinks LEDs to indicate activity.
+
+CounterAgent: Controls the LEDs to show the binary count.
+
+DecoderAgent: Formats the count in JSON format.
+
+2. Hardware Configuration
+Components Used
+
+Raspberry Pi Pico
+
+8 LEDs
+
+8 resistors (220Ω – 330Ω recommended)
+
+Breadboard and jumper wires
+
+LED GPIO Pin Mapping
+LED	GPIO
+LED0 (Status)	GPIO 0
+LED1	GPIO 1
+LED2	GPIO 2
+LED3	GPIO 3
+LED4	GPIO 4
+LED5	GPIO 5
+LED6	GPIO 6
+LED7	GPIO 7
+
+ℹ️ Note:
+Extra LEDs (LED2 to LED7) were added in this exercise to represent a larger binary counter.
+
+3. Software Architecture
+Tasks Overview
+Main Task (mainTask)
+
+Starts the BlinkAgent and CounterAgent.
+
+Starts the DecoderAgent to convert counter values into a JSON string.
+
+Sends a randomly generated 4-bit number (rand() & 0x0F) to the DecoderAgent.
+
+Monitors runtime statistics, including heap and task information.
+
+BlinkAgent
+
+Controls the LED blinking on GPIO 0.
+
+CounterAgent
+
+Displays the binary representation of a 4-bit number across GPIOs 1 to 7.
+
+DecoderAgent
+
+Receives the 4-bit value and converts it into a JSON formatted string.
+
+4. Runtime Statistics
+
+The runTimeStats() function provides:
+
+Task Information: Task numbers, priorities, stack usage, etc.
+
+Heap Statistics: Available heap space, free blocks, and allocation success.
+
+This helps monitor system performance and memory usage.
+
+5. Daily Progress Log
+
+Day 1
+
+Set up Raspberry Pi Pico with FreeRTOS.
+
+Tested basic GPIO control and LED blinking.
+
+Day 2
+
+Implemented CounterAgent to display binary numbers.
+
+Added BlinkAgent for status indication.
+
+Day 3
+
+Integrated DecoderAgent to format counter values into JSON.
+
+Tested JSON output and task communication.
+
+Day 4
+
+Improved system stats output, including heap usage.
+
+Added extra LEDs for larger binary counter display.
+
+6. Modifications Made
+
+Added DecoderAgent: Converts binary counter values into JSON format.
+
+Extra LEDs Added: For larger binary counter visualization (GPIOs 1 to 7).
+
+Runtime Statistics: Enhanced task monitoring with detailed heap and stack information.
+
+Updated JSON Output: The JSON output is now printed each time the binary counter updates.
+
+7. SOP – Standard Operating Procedure
+
+Hardware Setup:
+
+Connect LEDs to the Raspberry Pi Pico GPIO pins (GPIO 0 for blinking, GPIOs 1-7 for binary counter).
+
+Use current-limiting resistors (220Ω – 330Ω).
+
+Build the Project:
+
+Use the Pico SDK to build the project and generate the firmware.
+
+Flash the Firmware:
+
+Flash the firmware onto the Raspberry Pi Pico.
+
+Monitor via USB:
+
+Open a serial terminal (115200 baud) to view the output.
+
+Observe:
+
+The status LED (GPIO 0) blinks.
+
+The binary counter will be displayed across LEDs 1 to 7.
+
+The JSON output will be printed in the form {"count": X}.
+
+System stats will be printed every 3 seconds.
+
+8. Q&A
+
+Q: What is the purpose of the DecoderAgent?
+A: The DecoderAgent formats the binary value into a JSON string ({"count": X}) for easy communication and debugging.
+
+Q: Why add more LEDs?
+A: Additional LEDs (GPIOs 1 to 7) were added to extend the binary counter, providing a more comprehensive visualization of the counter's state.
+
+Q: How does the JSON output work?
+A: The mainTask generates a 4-bit random value, which is then sent to the DecoderAgent. The agent formats this value into a JSON string, which is printed to the serial terminal.
+
+Q: Why use FreeRTOS for this demo?
+A: FreeRTOS allows efficient multitasking, so tasks like blinking LEDs, updating the counter, and generating JSON can run concurrently with real-time scheduling.
+
+Q: What are the potential applications of this demo?
+A: This project demonstrates task scheduling, GPIO manipulation, and formatted output (JSON) on a microcontroller, which can be used for embedded systems, IoT projects, and educational purposes.
+
+9. Comments & Notes
+
+GPIO Pins: Make sure to connect LEDs with resistors to avoid overloading GPIO pins.
+
+Heap Stats: Monitor heap stats to ensure memory is efficiently allocated and freed.
+
+FreeRTOS: This demo can be extended with more complex task management and communication mechanisms.
+
+JSON Format: Useful for integrating with other systems (like web servers or APIs) that consume JSON.
+
+10. Final Notes
+
+This project demonstrates multitasking on a Raspberry Pi Pico using FreeRTOS, along with GPIO control and formatted JSON output.
+The use of extra LEDs allows for a richer binary visualization of the counter.
