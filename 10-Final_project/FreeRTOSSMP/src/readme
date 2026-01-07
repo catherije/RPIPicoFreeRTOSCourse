@@ -1,0 +1,173 @@
+1. Project Overview
+
+This project demonstrates FreeRTOS SMP (Symmetric Multi-Processing) on a Raspberry Pi Pico with dual-core support.
+The program utilizes two cores of the Pico as follows:
+
+Core 0: Controls one LED (GPIO 0) for blinking and sends instructions to the Counter on Core 1.
+
+Core 1: Controls another LED (GPIO 15) for blinking and displays a binary counter on GPIOs 2-5.
+
+Key Features
+
+FreeRTOS SMP: Uses both cores of the Raspberry Pi Pico.
+
+LED Blinking: Blinks LEDs on Core 0 and Core 1.
+
+Binary Counter: Displays a 4-bit random value on GPIOs 2 to 5 using Core 1.
+
+Runtime Statistics: Prints system stats, such as task details and heap usage, to the USB serial.
+
+2. Hardware Configuration
+Components Used
+
+Raspberry Pi Pico
+
+8 LEDs
+
+8 resistors (220Ω – 330Ω recommended)
+
+Breadboard and jumper wires
+
+LED GPIO Pin Mapping
+LED	GPIO
+LED0 (Core 0)	GPIO 0
+LED1 (Core 1)	GPIO 15
+LED2	GPIO 2
+LED3	GPIO 3
+LED4	GPIO 4
+LED5	GPIO 5
+LED6	GPIO 6
+LED7	GPIO 7
+
+ℹ️ Note:
+I added extra LEDs (LED2 to LED7) to this exercise to extend the binary counter visualization.
+
+3. Software Architecture
+Tasks Overview
+Main Task (mainTask)
+
+Initializes the BlinkAgent on Core 0 and Core 1, as well as the CounterAgent on Core 1.
+
+Sends random instructions to the counter using rand() & 0xF (4-bit value).
+
+Monitors runtime statistics (tasks and heap).
+
+BlinkAgent
+
+Controls the LED blinking on GPIO 0 (Core 0) and GPIO 15 (Core 1).
+
+CounterAgent
+
+Displays the 4-bit random number on GPIOs 2 to 5 using Core 1.
+
+Core Affinity
+
+Tasks are bound to specific cores using vTaskCoreAffinitySet(), ensuring that the BlinkAgent and CounterAgent tasks are executed on Core 1 and Core 0 respectively.
+
+4. Runtime Statistics
+
+The runTimeStats() function provides:
+
+Task-specific statistics (priority, stack usage, etc.).
+
+Memory stats such as heap usage and successful allocations.
+
+This feature is useful to monitor the real-time performance of the system.
+
+5. Daily Progress Log
+
+Day 1
+
+Set up Raspberry Pi Pico with FreeRTOS and configured SMP.
+
+Basic GPIO control for LEDs and tested on Core 0.
+
+Day 2
+
+Implemented multi-core task scheduling: Blink on Core 0, Counter on Core 1.
+
+Verified inter-core communication and instruction passing.
+
+Day 3
+
+Added additional LEDs to extend the binary counter.
+
+Integrated runtime statistics printing.
+
+Day 4
+
+Final refinements to task bindings using vTaskCoreAffinitySet().
+
+Tested performance on both cores with random binary counter values.
+
+6. Modifications Made
+
+Added extra LEDs (LED2 to LED7) for an extended binary counter display.
+
+Implemented SMP (Symmetric Multi-Processing) to run tasks on both cores.
+
+Used vTaskCoreAffinitySet() to explicitly bind tasks to specific cores.
+
+Improved runtime statistics output to monitor tasks and heap usage.
+
+Optimized task scheduling for better performance on dual-core systems.
+
+7. SOP – Standard Operating Procedure
+
+Hardware Setup:
+
+Connect the LEDs to the Raspberry Pi Pico GPIO pins (GPIO 0, 15 for blinking and GPIOs 2-7 for binary counter).
+
+Use current-limiting resistors (220Ω – 330Ω).
+
+Build the Project:
+
+Use the Pico SDK to build the project and generate the firmware.
+
+Flash the Firmware:
+
+Flash the generated firmware onto the Raspberry Pi Pico.
+
+Monitor via USB:
+
+Open a serial terminal (115200 baud) to view the output and monitor the blinking LEDs and runtime stats.
+
+Observe:
+
+The status LEDs will blink on Core 0 and Core 1.
+
+The binary counter will be displayed on GPIOs 2-5, updating every 3 seconds.
+
+System stats will be printed every 3 seconds, showing task performance and heap statistics.
+
+8. Q&A
+
+Q: Why use both cores in FreeRTOS?
+A: Using both cores allows better task parallelization, enabling more responsive and efficient handling of tasks, especially in real-time systems.
+
+Q: What are vTaskCoreAffinitySet() and why is it needed?
+A: vTaskCoreAffinitySet() binds tasks to specific cores, ensuring that tasks run on their designated core, which is useful for SMP systems like the Raspberry Pi Pico.
+
+Q: Why did you add extra LEDs?
+A: The additional LEDs (LED2 to LED7) were added to extend the binary counter display and improve visualization of multi-bit values, making the project more engaging and educational.
+
+Q: How does the task scheduling work on dual-core systems?
+A: Task scheduling is managed by FreeRTOS, and we explicitly bind tasks to specific cores using vTaskCoreAffinitySet() to optimize processing and task management.
+
+Q: How can I modify this for a larger binary counter?
+A: To extend the binary counter, simply add more LEDs, update the CounterAgent to handle more bits, and adjust the GPIO mapping.
+
+9. Comments & Notes
+
+GPIO Pins: Ensure proper wiring of LEDs with resistors to prevent damage to the GPIO pins.
+
+FreeRTOS SMP: This demo works with two cores and can be scaled to handle more complex tasks.
+
+Heap Stats: The runtime statistics are helpful for debugging memory management and identifying potential issues such as memory leaks.
+
+Performance: The demo demonstrates basic task scheduling and inter-core communication. Performance can be enhanced by refining the task synchronization mechanisms.
+
+10. Final Notes
+
+This project is an excellent demonstration of multi-core processing using FreeRTOS SMP on the Raspberry Pi Pico.
+The use of additional LEDs for the binary counter extends the educational value of this project, providing an engaging way to learn about task management, inter-core communication, and real-time system monitoring.
